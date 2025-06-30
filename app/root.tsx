@@ -6,7 +6,6 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
-import { Search } from './routes/search'
 
 export default function App() {
   return (
@@ -39,15 +38,10 @@ export default function App() {
               alignItems: 'center',
             }}
           >
-            <h1>Movies!</h1>
+            <h1>E-learning App</h1>
             <div>
-              <a href="https://github.com/remix-run/example-movies">Code</a> •{' '}
-              <a href="https://www.youtube.com/playlist?list=PLXoynULbYuEApkwAGZ7U7LmL-BDHloB0l">
-                YouTube Videos
-              </a>{' '}
               • <a href="https://remix.run/docs/en/main">Remix Docs</a>
             </div>
-            <Search />
           </div>
           <Outlet />
           <br style={{ clear: 'both' }} />

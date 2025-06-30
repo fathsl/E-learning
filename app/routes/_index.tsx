@@ -1,17 +1,8 @@
 import { defer, Await, useLoaderData } from '@remix-run/react'
 import { Suspense } from 'react'
-import { MovieLink } from '../movie-link'
 
 export async function loader({ context: { env } }) {
-  // use defer to unblock this DB query from the first byte
-  // - speeds up TTFB
-  // - speeds up FCP, LCP too because the browser can start downloading the
-  //   assets in parallel with the server side DB query
-  return defer({
-    query: env.DB.prepare(
-      `SELECT * FROM movies WHERE thumbnail != '' ORDER BY RANDOM() LIMIT 12`,
-    ).all(),
-  })
+ return ("Welcome to the E-learning App!")
 }
 
 // keep the home page data in memory so back clicks are instant and the data
@@ -30,7 +21,6 @@ export async function clientLoader({ serverLoader }) {
 clientLoader.hydrate = true
 
 export default function Home() {
-  let { query } = useLoaderData()
 
   return (
     <>
@@ -40,17 +30,7 @@ export default function Home() {
         database
       </p>
       <Suspense fallback={<Loading />}>
-        <Await resolve={query}>
-          {(query) => (
-            <ul>
-              {query.results.map((movie) => (
-                <li key={movie.id}>
-                  <MovieLink movie={movie} />
-                </li>
-              ))}
-            </ul>
-          )}
-        </Await>
+        
       </Suspense>
     </>
   )
