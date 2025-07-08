@@ -1,34 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useUser } from "../hooks/Hooks";
+import BubbleSearch from "../components/BubbleSearch";
+import Navbar from "../components/Navbar";
+import SideBar from "../components/SideBar";
+import Footer from "../components/Footer";
 
-export const Home = () => {
-  const { user } = useUser();
-
+// Composant principal Home
+const Home = () => {
   return (
-    <div className="flex justify-center mt-20">
-      <div className=" space-y-4">
-        <h1 className="text-2xl font-semibold">
-          Welcome home, {user ? user.username : "Buddy"}!
-        </h1>
-
-        {!user && (
-          <Link
-            className="block mt-5 w-full bg-blue-700 text-center text-white font-medium text-lg
-        py-2 px-5 rounded-3xl"
-            to="/login"
-          >
-            Log in
-          </Link>
-        )}
-        <Link
-          className="block mt-5 w-full bg-blue-700 text-center text-white font-medium text-lg
-        py-2 px-5 rounded-3xl"
-          to="/profile"
-        >
-          Dashboard
-        </Link>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <div className="flex flex-1">
+        <SideBar />
+        <main className="flex-1 p-6 bg-gray-100">
+          <h1 className="text-3xl font-bold mb-4">Bienvenue sur RNB Formation</h1>
+          <p className="text-lg mb-6">
+            Gérer facilement vos formations, utilisateurs, modules et progrès à partir de cette plateforme moderne.
+          </p>
+          <BubbleSearch />
+        </main>
       </div>
+      <Footer />
     </div>
   );
 };

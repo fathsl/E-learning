@@ -1,45 +1,48 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
-import { useAlert, useUser } from "../hooks/Hooks";
+import React from 'react';
+import { useAlert, useUser } from '../hooks/Hooks';
+import { Link } from 'react-router-dom';
 
-function Navbar() {
-  const { id } = useParams();
-  const { dispatchAlert } = useAlert();
+const Navbar = () => {
+const { dispatchAlert } = useAlert();
   const { user, dispatchUser } = useUser();
 
   const handleLogout = () => {
     dispatchUser({ type: "LOG_OUT" });
     dispatchAlert({
       type: "SHOW",
-      payload: "Log out",
+      payload: "Déconnexion réussie",
       variant: "Danger",
     });
     window.location.href = "/";
   };
 
   return (
-    <div className="backdrop-blur-md fixed inset-0 h-16 w-full bg-white bg-opacity-50 justify-between flex items-center px-10 py-5">
-      <Link to="/" className="text-xl font-semibold">
-        Fronto
-      </Link>
-      <div className="flex gap-2">
-        <Link
-          to="/users"
-          className=" right-10 grid place-content-center bg-blue-700 text-white font-medium text-lg px-5 h-10 w-28 rounded-3xl"
-        >
-          Admin
+    <nav className="bg-blue-600 p-4 text-white flex justify-between items-center w-full">
+      <div className="flex items-center space-x-2">
+        <img src="/logo.png" alt="Logo RNB" className="h-8 w-8" />
+        <Link to="/" className="text-xl font-bold">
+          RNB Formation
         </Link>
-        {user && (
-          <button
-            onClick={handleLogout}
-            className=" right-10 bg-red-700 text-white font-medium text-lg px-5 h-10 w-28 rounded-3xl"
-            type="submit"
-          >
-            Log out
-          </button>
+      </div>
+      <div className="space-x-4">
+        <Link to="/about" className="hover:underline">À propos</Link>
+        {user ? (
+          <>
+            <Link to={`/dashboard/${user.id}`} className="hover:underline">Dashboard</Link>
+            <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded hover:bg-red-600">
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="bg-green-500 px-3 py-1 rounded hover:bg-green-600">Login</Link>
+            <Link to="/signup" className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-100">
+              Sign Up
+            </Link>
+          </>
         )}
       </div>
-    </div>
+    </nav>
   );
 }
 
