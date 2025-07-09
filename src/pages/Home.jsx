@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
 import Footer from "../components/Footer";
 
+
 // Composant principal Home
 const Home = () => {
   return (
@@ -19,9 +20,12 @@ const Home = () => {
           <BubbleSearch />
         </main>
       </div>
+      
       <Footer />
     </div>
+    
   );
+  
 };
 
 export default Home;
