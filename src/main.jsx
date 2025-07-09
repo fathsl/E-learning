@@ -7,16 +7,19 @@ import AlertProvider from "./context/AlertContext";
 import Alert from "./components/Alert";
 import Hooks from "./hooks/Hooks";
 import Loader from "./components/Loader";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AlertProvider>
-      <UserProvider>
-        <App />
-        <Loader />
-        <Alert />
-        <Hooks />
-      </UserProvider>
-    </AlertProvider>
+    <BrowserRouter>
+      <AlertProvider>
+        <UserProvider>
+          <App />
+          <Loader />
+          <Alert />
+          <Hooks />
+        </UserProvider>
+      </AlertProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
