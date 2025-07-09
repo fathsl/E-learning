@@ -1,10 +1,7 @@
-import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
-import { AlertContext } from "../context/AlertContext";
-import { useAppState, useUser } from "../hooks/Hooks";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-function Login() {
+const Login = () => {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
@@ -33,7 +30,6 @@ function Login() {
         throw new Error(result.error || "Login failed");
       }
 
-      // Redirection vers le profil
       navigate("/profile");
     } catch (err) {
       setError(err.message);
@@ -81,14 +77,20 @@ function Login() {
 
         <p className="mt-4 text-center">
           Don't have an account?{" "}
-          <Link to="/register" className="text-purple-700 hover:underline"> Register
+          <Link to="/register" className="text-purple-700 hover:underline">
+            {" "}
+            Register
           </Link>
-          <Link to="/login" className="bg-green-500 px-3 py-1 rounded hover:bg-green-600">Login</Link>
-           
+          <Link
+            to="/login"
+            className="bg-green-500 px-3 py-1 rounded hover:bg-green-600"
+          >
+            Login
+          </Link>
         </p>
       </div>
     </div>
   );
-}
+};
 
 export default Login;
