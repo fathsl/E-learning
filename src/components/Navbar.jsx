@@ -3,7 +3,7 @@ import { useAlert, useUser } from '../hooks/Hooks';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-const { dispatchAlert } = useAlert();
+  const { dispatchAlert } = useAlert();
   const { user, dispatchUser } = useUser();
 
   const handleLogout = () => {
@@ -17,33 +17,49 @@ const { dispatchAlert } = useAlert();
   };
 
   return (
-    <nav className="bg-blue-600 p-4 text-white flex justify-between items-center w-full">
-      <div className="flex items-center space-x-2">
-        <img src="/logo.png" alt="Logo RNB" className="h-8 w-8" />
-        <Link to="/" className="text-xl font-bold">
+    <nav
+      className="h-64 px-50 text-white flex justify-between items-center w-full shadow-md"
+      style={{
+        backgroundImage: "url('/image navbar.jpg')",// 💡 Remplace par ton image
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+       opacity: 0.40,
+    
+      }}
+    >
+      {}
+      <div className="flex items-center space-x-4">
+        <Link to="/">
+          <img
+            src="/logo.jpg"
+            alt="Logo RNB"
+            className="h-16 w-auto transition-transform duration-500 hover:rotate-6"
+          />
+        </Link>
+        <Link to="/" className="text-2xl font-bold hover:underlinabsolute top-4 left-4 text-xl font-lighte">
           RNB Formation
         </Link>
       </div>
-      <div className="space-x-4">
+
+      {/* ✅ Liens de navigation */}
+      <div className="space-x-6 text-lg">
         <Link to="/about" className="hover:underline">À propos</Link>
         {user ? (
           <>
             <Link to={`/dashboard/${user.id}`} className="hover:underline">Dashboard</Link>
-            <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded hover:bg-red-600">
+            <button onClick={handleLogout} className="hover:underline">
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="bg-green-500 px-3 py-1 rounded hover:bg-green-600">Login</Link>
-            <Link to="/signup" className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-100">
-              Sign Up
-            </Link>
+            <Link to="/login" className="hover:underline">Login</Link>
+            <Link to="/signup" className="hover:underline">Sign Up</Link>
           </>
         )}
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;
