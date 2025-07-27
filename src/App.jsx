@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import About from "./pages/About";
 import Formation from "./pages/Formation";
 import Contact from "./pages/contact";
+import "framer-motion"
 // Tu peux aussi importer Navbar et Footer ici si tu veux les afficher globalement
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/formation" element={<Formation />} />
-        <Route path="/contact" element={<Contact />} />
+       <Route path="/contact" element={<Contact />} />
       </Routes>
       {/* Tu peux ajouter <Footer /> ici si tu veux qu’il soit visible partout */}
     </>
