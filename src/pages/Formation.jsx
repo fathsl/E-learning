@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import FormationForm from './formulaire';
+import { useNavigate } from 'react-router-dom';
 
 const formations = [
   {
@@ -134,7 +136,7 @@ const Formation = () => {
   const [openId, setOpenId] = useState(null);
   const [activeTab, setActiveTab] = useState('courses');
   const [search, setSearch] = useState('');
-
+const navigate = useNavigate();
   const toggleDetails = (id) => {
     setOpenId(openId === id ? null : id);
     setActiveTab('courses');
@@ -159,6 +161,13 @@ const Formation = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
+   <button
+      onClick={() => navigate('/Formulaire')}
+      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+    >
+      Go to Formulair
+    </button>
+
         </div>
 
         {/* Cartes formations */}
@@ -229,3 +238,4 @@ const Formation = () => {
 };
 
 export default Formation;
+

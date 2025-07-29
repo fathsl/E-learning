@@ -5,7 +5,8 @@ import Login from "./pages/Login";
 import About from "./pages/About";
 import Formation from "./pages/Formation";
 import Contact from "./pages/contact";
-
+import FormationForm from "./pages/formulaire";
+// Tu peux aussi importer Navbar et Footer ici si tu veux les afficher globalement
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/formation" element={<Formation />} />
        <Route path="/contact" element={<Contact />} />
+       <Route path="/Formulaire" element={<FormationForm/>}/>
       </Routes>
     </>
   );
