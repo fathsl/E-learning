@@ -1,121 +1,115 @@
-import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
-import { AlertContext } from "../context/AlertContext";
-import { useAppState, useUser } from "../hooks/Hooks";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-function Login() {
-  const { dispatchUser } = useContext(UserContext);
-  const { dispatchAlert } = useContext(AlertContext);
+const Login = () => {
+  const navigate = useNavigate();
+  const [userDetails, setUserDetails] = useState({ email: "", password: "" });
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const { user } = useUser();
+  // Gère les changements dans les champs du formulaire
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserDetails({ ...userDetails, [name]: value });
+  };
 
-  useEffect(() => {
-    if (user) {
-      window.location.href = "/profile";
-    }
-  }, [user]);
-
-  const [userDetails, setUserDetails] = useState({
-    email: "",
-    password: "",
-  });
-
+  // Gère la soumission du formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
 
     try {
-      dispatchUser({ type: "LOADING" });
       const res = await fetch("http://localhost:5000/api/v1/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userDetails),
-      });
-
-      setUserDetails({
-        username: "",
-        email: "",
-        password: "",
       });
 
       const result = await res.json();
 
       if (!result.success) {
-        throw new Error(result.error);
+        throw new Error(result.error || "Login failed");
       }
 
-      setTimeout(() => {
-        dispatchAlert({
-          type: "SHOW",
-          payload: "Log in successful",
-          variant: "Success",
-        });
-        
-        dispatchUser({ type: "LOG_IN", payload: result.data });
-        window.location.href = "/profile";
-      }, 3000);
-
-      console.log(result);
+      navigate("/profile");
     } catch (err) {
-      dispatchAlert({
-        type: "SHOW",
-        payload: err.message,
-        variant: "Warning",
-      });
-      dispatchUser({ type: "ERROR" });
-      console.log(err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setUserDetails((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
-  };
-
   return (
-    <div className="flex justify-center">
-      <div className="mt-20">
-        <h1 className="font-bold text-3xl mb-5">Log in</h1>
-        <p className="mb-8">Enter your details below to log in</p>
-        <form className="space-y-3" onSubmit={handleSubmit}>
-          <input
-            className="block py-2 px-5 rounded-lg border-2 border-slate-400 focus:border-purple-700 outline-none transition-all duration-200"
-            type="email"
-            name="email"
-            placeholder="Email address"
-            value={userDetails.email}
-            onChange={handleChange}
-          />
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      {/* -------- NAVBAR -------- */}
+      <header className="w-full bg-white shadow-md py-4 text-center">
+        <Navbar />
+      </header>
 
-          <input
-            className="block py-2 px-5 rounded-lg border-2 border-slate-400 focus:border-purple-700 outline-none transition-all duration-200"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={userDetails.password}
-            onChange={handleChange}
-          />
-          <button
-            className="block w-full bg-purple-700 text-white font-medium text-lg py-2 px-5 rounded-3xl"
-            type="submit"
-          >
-            Log in
-          </button>
-        </form>
-        <p className="mt-5">
-          Or <Link to="/register">Register</Link>
-        </p>
-      </div>
+      {/* -------- FORMULAIRE LOGIN -------- */}
+      <main className="flex-grow flex items-center justify-center px-4">
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+          <h1 className="text-2xl font-bold mb-6 text-center">Log in</h1>
+
+          {/* Message d'erreur */}
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded text-center mb-4">
+              {error}
+            </div>
+          )}
+
+          {/* Formulaire */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email address"
+              value={userDetails.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              required
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={userDetails.password}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              required
+            />
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-purple-700 text-white py-2 rounded-md hover:bg-purple-800 transition"
+            >
+              {loading ? "Logging in..." : "Log in"}
+            </button>
+          </form>
+
+          {/* Lien vers l'inscription */}
+          <p className="mt-4 text-center text-sm">
+            Don't have an account?{" "}
+            <Link to="/register" className="text-purple-700 hover:underline">
+              Register
+            </Link>
+          </p>
+        </div>
+      </main>
+
+      {/* -------- FOOTER -------- */}
+      <footer className="w-full bg-white shadow-inner py-4 text-center">
+        <Footer />
+      </footer>
     </div>
   );
-}
+};
 
 export default Login;
+
+

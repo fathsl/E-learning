@@ -1,14 +1,24 @@
-import React from 'react';
-import Home from './pages/Home';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import About from "./pages/About";
+import Formation from "./pages/Formation";
+import Contact from "./pages/contact";
 
 function App() {
-
   return (
-    <div className="flex flex-col items-center space-y-10 mt-20">
-      <Home />
-    </div>
+    <>
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/formation" element={<Formation />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </>
   );
-};
+}
 
 export default App;
 
