@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion"; // 👉 Ajouté pour l'animation
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
